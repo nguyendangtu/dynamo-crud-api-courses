@@ -1,12 +1,6 @@
-const db = require("./db");
-const {
-    GetItemCommand,
-    PutItemCommand,
-    DeleteItemCommand,
-    ScanCommand,
-    UpdateItemCommand,
-} = require("@aws-sdk/client-dynamodb");
-const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
+import { send } from "./db";
+import { GetItemCommand, PutItemCommand, DeleteItemCommand, ScanCommand, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 
 const getCourse = async (event) => {
     const response = { statusCode: 200 };
@@ -16,7 +10,7 @@ const getCourse = async (event) => {
             TableName: process.env.DYNAMODB_TABLE_NAME,
             Key: marshall({ courseCode: event.pathParameters.courseCode }),
         };
-        const { Item } = await db.send(new GetItemCommand(params));
+        const { Item } = await send(new GetItemCommand(params));
 
         console.log({ Item });
         response.body = JSON.stringify({
@@ -46,7 +40,7 @@ const createCourse = async (event) => {
             TableName: process.env.DYNAMODB_TABLE_NAME,
             Item: marshall(body || {}),
         };
-        const createResult = await db.send(new PutItemCommand(params));
+        const createResult = await send(new PutItemCommand(params));
 
         response.body = JSON.stringify({
             message: "Successfully created course.",
@@ -84,7 +78,7 @@ const updateCourse = async (event) => {
                 [`:value${index}`]: body[key],
             }), {})),
         };
-        const updateResult = await db.send(new UpdateItemCommand(params));
+        const updateResult = await send(new UpdateItemCommand(params));
 
         response.body = JSON.stringify({
             message: "Successfully updated course.",
@@ -111,7 +105,7 @@ const deleteCourse = async (event) => {
             TableName: process.env.DYNAMODB_TABLE_NAME,
             Key: marshall({ courseCode: event.pathParameters.courseCode }),
         };
-        const deleteResult = await db.send(new DeleteItemCommand(params));
+        const deleteResult = await send(new DeleteItemCommand(params));
 
         response.body = JSON.stringify({
             message: "Successfully deleted course.",
@@ -134,7 +128,7 @@ const getAllCourses = async () => {
     const response = { statusCode: 200 };
 
     try {
-        const { Items } = await db.send(new ScanCommand({ TableName: process.env.DYNAMODB_TABLE_NAME }));
+        const { Items } = await send(new ScanCommand({ TableName: process.env.DYNAMODB_TABLE_NAME }));
 
         response.body = JSON.stringify({
             message: "Successfully retrieved all courses.",
@@ -154,7 +148,7 @@ const getAllCourses = async () => {
     return response;
 };
 
-module.exports = {
+export default {
     getCourse,
     createCourse,
     updateCourse,
