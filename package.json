@@ -1,18 +1,8 @@
 {
   "name": "dynamo-crud-api-courses",
   "version": "1.0.0",
-  "description": "demonstration for crud Dynamo DB with AWS Lambda",
   "main": "app.js",
-  "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.18.0",
-    "@aws-sdk/util-dynamodb": "^3.18.0",
-    "serverless-iam-roles-per-function": "^3.2.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {}
+  "repository": "https://github.com/nguyendangtu/dynamo-crud-api-courses.git",
+  "author": "nguyendangtu <nguyendangtu1987@gmail.com>",
+  "license": "MIT"
 }
