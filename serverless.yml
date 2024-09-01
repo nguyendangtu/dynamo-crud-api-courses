@@ -6,10 +6,10 @@ provider:
   stage: dev
   region: us-east-1
   environment:
-    DYNAMODB_TABLE_NAME: ${self:custom.CourseTableName}
+    DYNAMODB_TABLE_NAME: ${self:custom.courseTableName}
 
 custom:
-  CourseTableName: course-table-${self:provider.stage}
+  courseTableName: course-table-${self:provider.stage}
 
 plugins:
   - serverless-iam-roles-per-function
@@ -91,7 +91,7 @@ resources:
     CoursesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.CourseTableName}
+        TableName: ${self:custom.courseTableName}
         AttributeDefinitions:
           - AttributeName: courseCode
             AttributeType: S
