@@ -1,7 +1,7 @@
 {
   "name": "dynamo-crud-api-courses",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "index.mjs",
   "repository": "https://github.com/nguyendangtu/dynamo-crud-api-courses.git",
   "author": "nguyendangtu <nguyendangtu1987@gmail.com>",
   "license": "MIT",
