@@ -1,4 +1,4 @@
-const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 const client = new DynamoDBClient({});
 
-module.exports = client;
+export default client;
