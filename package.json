@@ -4,5 +4,8 @@
   "main": "app.js",
   "repository": "https://github.com/nguyendangtu/dynamo-crud-api-courses.git",
   "author": "nguyendangtu <nguyendangtu1987@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "serverless-iam-roles-per-function": "^3.2.0"
+  }
 }
