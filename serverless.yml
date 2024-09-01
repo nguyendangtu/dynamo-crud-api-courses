@@ -1,0 +1,105 @@
+service: dynamodb-crud-api
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  environment:
+    DYNAMODB_TABLE_NAME: ${self:custom.CourseTableName}
+
+custom:
+  CourseTableName: Course-table-${self:provider.stage}
+
+plugins:
+  - serverless-iam-roles-per-function
+
+functions:
+  getCourse:
+    handler: api.getCourse
+    name: get-course
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: course/{courseCode}
+          method: GET
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:GetItem"
+        Resource: !GetAtt CourseTable.Arn
+  createCourse:
+    handler: api.createCourse
+    name: create-course
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: post
+          method: POST
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:PutItem"
+        Resource: !GetAtt CourseTable.Arn
+  updateCourse:
+    handler: api.updateCourse
+    name: update-course
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: course/{courseCode}
+          method: PUT
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:UpdateItem"
+        Resource: !GetAtt CourseTable.Arn
+  deleteCourse:
+    handler: api.deleteCourse
+    name: delete-course
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: course/{courseCode}
+          method: DELETE
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:DeleteItem"
+        Resource: !GetAtt CourseTable.Arn
+  getAllCourses:
+    handler: api.getAllCourses
+    name: get-all-courses
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: courses
+          method: GET
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:Scan"
+        Resource: !GetAtt CourseTable.Arn
+
+resources:
+  Resources:
+    CoursesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.CourseTableName}
+        AttributeDefinitions:
+          - AttributeName: courseCode
+            AttributeType: S
+          - AttributeName: teacherName
+            AttributeType: S
+        KeySchema:
+          - AttributeName: courseCode
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
