@@ -100,6 +100,8 @@ resources:
         KeySchema:
           - AttributeName: courseCode
             KeyType: HASH
+          - AttributeName: teacherName
+            KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
