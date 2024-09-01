@@ -101,7 +101,7 @@ resources:
           - AttributeName: courseCode
             KeyType: HASH
           - AttributeName: teacherName
-            KeyType: HASH
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
