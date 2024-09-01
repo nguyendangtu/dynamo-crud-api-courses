@@ -6,10 +6,10 @@ provider:
   stage: dev
   region: us-east-1
   environment:
-    DYNAMODB_TABLE_NAME: ${self:custom.courseTableName}
+    DYNAMODB_TABLE_NAME: ${self:custom.coursesTableName}
 
 custom:
-  courseTableName: course-table-${self:provider.stage}
+  coursesTableName: courses-table-${self:provider.stage}
 
 plugins:
   - serverless-iam-roles-per-function
@@ -28,7 +28,7 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:GetItem"
-        Resource: !GetAtt CourseTable.Arn
+        Resource: !GetAtt CoursesTable.Arn
   createCourse:
     handler: api.createCourse
     name: create-course
@@ -42,7 +42,7 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:PutItem"
-        Resource: !GetAtt CourseTable.Arn
+        Resource: !GetAtt CoursesTable.Arn
   updateCourse:
     handler: api.updateCourse
     name: update-course
@@ -56,7 +56,7 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:UpdateItem"
-        Resource: !GetAtt CourseTable.Arn
+        Resource: !GetAtt CoursesTable.Arn
   deleteCourse:
     handler: api.deleteCourse
     name: delete-course
@@ -70,7 +70,7 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:DeleteItem"
-        Resource: !GetAtt CourseTable.Arn
+        Resource: !GetAtt CoursesTable.Arn
   getAllCourses:
     handler: api.getAllCourses
     name: get-all-courses
@@ -84,14 +84,14 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:Scan"
-        Resource: !GetAtt CourseTable.Arn
+        Resource: !GetAtt CoursesTable.Arn
 
 resources:
   Resources:
     CoursesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.courseTableName}
+        TableName: ${self:custom.coursesTableName}
         AttributeDefinitions:
           - AttributeName: courseCode
             AttributeType: S
